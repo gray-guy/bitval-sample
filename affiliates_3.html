@@ -177,44 +177,18 @@
 
   /* ---------- Hero ---------- */
   .hero-stage{position:relative;overflow:hidden;background:var(--bg)}
-  .hero-bg,.hero-shader,.hero-grid{
-    pointer-events:none;
-    -webkit-mask-image:radial-gradient(ellipse 88% 62% at 50% -4%,
-      #000 0%,
-      #000 36%,
-      rgba(0,0,0,.55) 52%,
-      rgba(0,0,0,.2) 68%,
-      transparent 78%);
-            mask-image:radial-gradient(ellipse 88% 62% at 50% -4%,
-      #000 0%,
-      #000 36%,
-      rgba(0,0,0,.55) 52%,
-      rgba(0,0,0,.2) 68%,
-      transparent 78%);
-    -webkit-mask-repeat:no-repeat;
-            mask-repeat:no-repeat;
+  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--bg)}
+  .hero-unicorn-wrap{
+    position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;
+    display:flex;flex-direction:row;justify-content:center;align-items:flex-start;
+    container-type:size;
   }
-  .hero-bg{position:absolute;inset:0;z-index:0;
-    background-color:var(--bg);
-    background-image:url("assets/LandingHeaderBackground.svg");
-    background-size:cover;
-    background-position:center top;
-    background-repeat:no-repeat;
-  }
-  .hero-shader{position:absolute;inset:0;z-index:1;overflow:hidden;
-    opacity:.36;
-    mix-blend-mode:screen;
-  }
-  .hero-shader > div{position:absolute;inset:0}
-  .hero-grid{position:absolute;inset:0;z-index:2;background:
-    linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/80px 80px,
-    linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/80px 80px;
-    opacity:.34
+  .hero-unicorn{
+    width:1440px;height:900px;flex:0 0 auto;
+    transform:scale(max(calc(100cqw/1440),calc(100cqh/900)));
+    transform-origin:top center;
   }
   .hero{position:relative;z-index:3;padding:96px 0 80px;text-align:center}
-  .hero-scrim{position:absolute;left:50%;top:60px;transform:translateX(-50%);width:1000px;height:520px;z-index:0;pointer-events:none;
-    background:radial-gradient(50% 55% at 50% 45%, rgba(9,9,11,.62) 0%, rgba(9,9,11,.3) 50%, rgba(9,9,11,0) 80%);
-  }
   .hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:28px}
   .hero-inner > *{animation:fadeUp .9s var(--ease-out) both}
   .hero-inner > *:nth-child(1){animation-delay:.05s}
@@ -234,6 +208,18 @@
   h1.hero-title em{font-style:normal;background:linear-gradient(180deg, #ffffff 0%, #c8d0ff 60%, #7A8FFF 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600;animation:gradientShift 8s ease-in-out infinite}
   .hero-sub{max-width:640px;font-size:19px;line-height:1.55;color:#B2BAC9;margin:0;text-wrap:balance}
   .hero-cta{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap;justify-content:center}
+  .hero .hero-cta .btn-ghost{
+    color:#fff;
+    background:rgba(9,9,11,.58);
+    border:1px solid rgba(151,168,255,.45);
+    box-shadow:0 4px 28px -6px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.1);
+    backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);
+  }
+  .hero .hero-cta .btn-ghost:hover{
+    background:rgba(97,114,255,.32);
+    border-color:rgba(198,208,255,.55);
+    box-shadow:0 6px 32px -8px rgba(97,114,255,.35), inset 0 1px 0 rgba(255,255,255,.12);
+  }
   .hero-meta{display:flex;gap:28px;align-items:center;color:var(--text-muted);font-size:13px;margin-top:14px;flex-wrap:wrap;justify-content:center}
   .hero-meta .sep{width:4px;height:4px;border-radius:999px;background:var(--hairline-strong)}
 
@@ -607,8 +593,6 @@
     .btn-xl{height:52px;font-size:15px;padding:0 20px}
     .hero-meta{gap:14px;font-size:12px;padding:0 8px}
     .hero-meta .sep{display:none}
-    .hero-scrim{width:140%;height:420px}
-
     .diff{padding:56px 0 48px}
     .diff-grid{grid-template-columns:1fr;gap:12px}
     .diff-head{padding:22px 22px 18px}
@@ -861,10 +845,9 @@
 
   <div class="hero-stage">
     <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-shader aura-background-component" aria-hidden="true">
-      <div data-us-project="qpSlPSWA2bdkUAYztz8z"></div>
+    <div class="hero-unicorn-wrap" aria-hidden="true">
+      <div class="hero-unicorn" data-us-project="juQIjL98lGs4nOfPpKxE"></div>
     </div>
-    <div class="hero-grid" aria-hidden="true"></div>
 
   <!-- ============================= NAV ============================= -->
   <header class="nav" id="siteNav">
@@ -904,14 +887,10 @@
 
   <!-- ============================= HERO ============================= -->
   <section class="hero">
-    <div class="hero-scrim" aria-hidden="true"></div>
-    <script type="text/javascript">
-      !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
-    </script>
     <div class="wrap hero-inner">
       <div class="hero-row">
         <div class="hero-text-col">
-          <span class="badge"><span class="dot"></span>Bitval Affiliate Program</span>
+          <!-- <span class="badge"><span class="dot"></span>Bitval Affiliate Program</span> -->
           <h1 class="hero-title">Scale your reach.<br/><em>Earn as a partner.</em></h1>
           <p class="hero-sub">An application-based partner program for creators, publishers, and communities with real reach.</p>
           <div class="hero-cta">
@@ -1168,13 +1147,17 @@
   <section class="aff-closer" id="apply">
     <div class="aff-closer-bg" aria-hidden="true"></div>
     <div class="wrap aff-closer-inner">
+      <!--
       <div class="sec-head reveal">
         <span class="eyebrow eyebrow-warm">Get started</span>
         <h2>Two ways in.<br/><em>One review process.</em></h2>
       </div>
+      -->
 
       <!-- Apply cards (trimmed: no bullets, no approval note box) -->
-      <div class="apply-grid reveal-stagger">
+       <!--
+      
+            <div class="apply-grid reveal-stagger">
         <div class="apply-path primary">
           <div class="apply-path-tag new">New partner</div>
           <h3>Apply as a new affiliate partner</h3>
@@ -1197,6 +1180,10 @@
           </div>
         </div>
       </div>
+      
+      
+       -->
+
 
       <!-- FAQ (4 questions, centered) -->
       <div class="aff-closer-faq reveal" id="faq">
@@ -1393,6 +1380,8 @@
       if (chev) chev.style.transform = item.open ? 'rotate(45deg)' : '';
     });
   });
+
 </script>
+<script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.9/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
 </body>
 </html>
