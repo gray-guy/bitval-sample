@@ -169,40 +169,27 @@
 
   /* ---------- Hero (backdrop spans nav + hero so glow starts at top) ---------- */
   .hero-stage{position:relative;overflow:hidden;background:var(--bg)}
-  .hero-bg,.hero-shader,.hero-grid{
-    pointer-events:none;
-    /* bowl / inverted-U: strong behind nav, soft falloff to sides + bottom */
-    -webkit-mask-image:radial-gradient(ellipse 88% 62% at 50% -4%,
-      #000 0%,
-      #000 36%,
-      rgba(0,0,0,.55) 52%,
-      rgba(0,0,0,.2) 68%,
-      transparent 78%);
-            mask-image:radial-gradient(ellipse 88% 62% at 50% -4%,
-      #000 0%,
-      #000 36%,
-      rgba(0,0,0,.55) 52%,
-      rgba(0,0,0,.2) 68%,
-      transparent 78%);
-    -webkit-mask-repeat:no-repeat;
-            mask-repeat:no-repeat;
+  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--bg)}
+  .hero-dynamic-bg{
+    position:absolute;inset:0;z-index:1;display:flex;width:100%;height:100%;overflow:hidden;
+    pointer-events:none;opacity:.9;
+    -webkit-mask-image:linear-gradient(to bottom, transparent 10%, #000 50%, #000 90%, transparent 100%);
+            mask-image:linear-gradient(to bottom, transparent 10%, #000 50%, #000 90%, transparent 100%);
   }
-  .hero-bg{position:absolute;inset:0;z-index:0;
-    background-color:var(--bg);
-    background-image:url("assets/LandingHeaderBackground.svg");
-    background-size:cover;
-    background-position:center top;
-    background-repeat:no-repeat;
+  .hero-dynamic-bg__col{
+    flex:1;min-width:0;height:100%;position:relative;overflow:hidden;
+    border-right:1px solid rgba(255,255,255,.028);
   }
-  .hero-shader{position:absolute;inset:0;z-index:1;overflow:hidden;
-    opacity:.36;
-    mix-blend-mode:screen;
-  }
-  .hero-shader > div{position:absolute;inset:0}
-  .hero-grid{position:absolute;inset:0;z-index:2;background:
-    linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/80px 80px,
-    linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/80px 80px;
-    opacity:.34
+  .hero-dynamic-bg__col:last-child{border-right:none}
+  .hero-dynamic-bg__glow{
+    position:absolute;left:0;right:0;width:100%;height:150vh;
+    filter:blur(4px);
+    background:linear-gradient(to bottom,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--accent) 62%, transparent) 10%,
+      rgba(255,255,255,.88) 15%,
+      color-mix(in srgb, var(--accent-cyan) 76%, transparent) 25%,
+      var(--bg) 45%);
   }
   .hero{position:relative;z-index:3;padding:96px 0 80px;text-align:center}
   /* readability scrim directly behind the headline */
@@ -229,6 +216,18 @@
   h1.hero-title em{font-style:normal;background:linear-gradient(180deg, #ffffff 0%, #c8d0ff 60%, #7A8FFF 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600;animation:gradientShift 8s ease-in-out infinite}
   .hero-sub{max-width:620px;font-size:19px;line-height:1.55;color:#B2BAC9;margin:0;text-wrap:balance}
   .hero-cta{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap;justify-content:center}
+  .hero .hero-cta .btn-ghost{
+    color:#fff;
+    background:rgba(9,9,11,.58);
+    border:1px solid rgba(151,168,255,.45);
+    box-shadow:0 4px 28px -6px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.1);
+    backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);
+  }
+  .hero .hero-cta .btn-ghost:hover{
+    background:rgba(97,114,255,.32);
+    border-color:rgba(198,208,255,.55);
+    box-shadow:0 6px 32px -8px rgba(97,114,255,.35), inset 0 1px 0 rgba(255,255,255,.12);
+  }
   .hero-meta{display:flex;gap:28px;align-items:center;color:var(--text-muted);font-size:13px;margin-top:14px;flex-wrap:wrap;justify-content:center}
   .hero-meta .sep{width:4px;height:4px;border-radius:999px;background:var(--hairline-strong)}
 
@@ -666,6 +665,60 @@
     .nav-toggle{width:36px;height:36px}
     .nav-drawer{top:70px}
   }
+
+  .hero-copy{display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;width:100%;max-width:940px}
+  .hero-copy>*{animation:fadeUp .9s var(--ease-out) both}
+  .hero-copy>*:nth-child(1){animation-delay:.05s}
+  .hero-copy>*:nth-child(2){animation-delay:.15s}
+  .hero-copy>*:nth-child(3){animation-delay:.25s}
+  .hero-copy>*:nth-child(4){animation-delay:.35s}
+
+  /* ===== v2: How × Rewards merged ===== */
+  .how-rewards{padding:96px 0 72px}
+  .how-rewards-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .steps-compact{display:flex;flex-direction:column}
+  .step-line{display:flex;gap:18px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--hairline)}
+  .step-line:first-child{padding-top:0}
+  .step-line:last-of-type{border-bottom:0;padding-bottom:0}
+  .sl-num{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:none;font-size:13px;font-weight:600;color:var(--text-dim);margin-top:3px;transition:background .3s var(--ease-out),color .3s var(--ease-out)}
+  .step-line:hover .sl-num{background:var(--accent);color:#fff}
+  .sl-body{display:flex;flex-direction:column;gap:4px}
+  .sl-body strong{font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.25}
+  .sl-body span{font-size:14px;color:var(--text-dim);line-height:1.5}
+  .tier-graphic{display:flex;align-items:center;gap:14px;margin-top:24px;padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid var(--hairline);border-radius:12px}
+  .tier-graphic-placeholder{width:52px;height:52px;border-radius:12px;background:rgba(97,114,255,.08);border:1px solid rgba(151,168,255,.12);flex:none}
+  .tier-graphic img{width:52px;height:52px;object-fit:contain;flex:none}
+  .tier-graphic p{margin:0;font-size:13px;color:var(--text-muted);line-height:1.4}
+  .rewards-right{display:flex;flex-direction:column;gap:14px}
+  .rewards-right-head{display:flex;justify-content:space-between;align-items:baseline;color:var(--text-dim);font-size:13px;letter-spacing:.06em;text-transform:uppercase;gap:12px;flex-wrap:wrap;margin-bottom:2px}
+  .rewards-right-head span:last-child{text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--text-muted)}
+  @media(max-width:900px){.how-rewards-grid{grid-template-columns:1fr;gap:40px}}
+  @media(max-width:768px){
+    .how-rewards{padding:64px 0 48px}
+    .sl-body strong{font-size:16px}
+  }
+
+  /* ===== v2: Closer (merged FAQ + CTA) ===== */
+  .closer{padding:96px 0 120px;position:relative;overflow:hidden}
+  .closer-bg{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(55% 70% at 50% 100%,rgba(82,107,204,.28),transparent 70%),
+               radial-gradient(28% 36% at 18% 48%,rgba(102,215,255,.08),transparent 72%)}
+  .closer-inner{position:relative;z-index:1}
+  .closer-faq-head{text-align:center;margin-bottom:32px}
+  .closer-faq-head h2{margin:0 0 8px;font-size:38px;font-weight:500;letter-spacing:-.02em;line-height:1.1}
+  .closer-faq-head p{margin:0;color:var(--text-dim);font-size:15px}
+  .closer-faq{max-width:720px;margin:0 auto 64px;display:flex;flex-direction:column;gap:10px}
+  .closer-cta-block{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .closer-cta-block h2{margin:0;font-size:48px;font-weight:500;letter-spacing:-.02em;line-height:1.05;max-width:680px;text-wrap:balance}
+  .closer-cta-block h2 em{font-style:normal;background:linear-gradient(180deg,#fff,#7A8FFF);background-size:100% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientShift 6s ease-in-out infinite}
+  .closer-cta-block p{margin:0;color:var(--text-dim);font-size:17px;max-width:480px;text-wrap:balance}
+  @media(max-width:768px){
+    .closer{padding:64px 0 88px}
+    .closer-cta-block h2{font-size:30px;line-height:1.1}
+    .closer-cta-block p{font-size:15.5px}
+    .closer-faq{margin-bottom:48px}
+    .closer-faq-head h2{font-size:28px}
+  }
 </style>
 </head>
 <body>
@@ -673,10 +726,7 @@
 
   <div class="hero-stage">
     <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-shader aura-background-component" aria-hidden="true">
-      <div data-us-project="qpSlPSWA2bdkUAYztz8z"></div>
-    </div>
-    <div class="hero-grid" aria-hidden="true"></div>
+    <div id="hero-dynamic-bg" class="hero-dynamic-bg" aria-hidden="true"></div>
 
   <!-- Nav -->
   <header class="nav" id="siteNav">
@@ -717,28 +767,17 @@
   <!-- ============================= HERO ============================= -->
   <section class="hero">
     <div class="hero-scrim" aria-hidden="true"></div>
-    <script type="text/javascript">
-      !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
-    </script>
     <div class="wrap hero-inner">
-      <span class="badge"><span class="dot"></span>Bitval Referral Program</span>
-
-      <h1 class="hero-title">Invite friends.<br/><em>Earn together.</em></h1>
-      <p class="hero-sub">Share your link. When the friends you invite sign up and qualify, you both get rewarded from their trading activity — tracked inside your Bitval account.</p>
-
-      <div class="hero-cta">
-        <button class="btn btn-primary btn-xl" id="heroSignup">Sign up to start referring
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="btn btn-ghost btn-xl" id="heroLogin">Log in to get your referral link</button>
-      </div>
-
-      <div class="hero-meta">
-        <span>Tracked inside Bitval</span>
-        <i class="sep"></i>
-        <span>No cap on invites</span>
-        <i class="sep"></i>
-        <span>Pays out in USDT</span>
+      <div class="hero-copy">
+        <!-- <span class="badge"><span class="dot"></span>Bitval Referral Program</span> -->
+        <h1 class="hero-title">Invite friends.<br/><em>Earn together.</em></h1>
+        <p class="hero-sub">Share your link. When friends sign up and qualify, you both earn from their trading activity.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-xl" id="heroSignup">Sign up to start referring
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-xl" id="heroLogin">Log in to get your referral link</button>
+        </div>
       </div>
 
       <!-- dual value -->
@@ -750,7 +789,6 @@
               You, the referrer
             </span>
             <div class="amount blue" id="rewardAmount">Up to 40%<span class="unit">of trading fees</span></div>
-            <p>Earn a share of the fees your invited friends pay on spot and futures trades. Rates increase as more of your friends qualify.</p>
           </div>
           <div class="value-divider"><span class="chip">→</span></div>
           <div class="value-card">
@@ -759,7 +797,6 @@
               Your friend
             </span>
             <div class="amount warm">Welcome bonus<span class="unit"> + fee discount</span></div>
-            <p>Friends who sign up with your link get a welcome bonus and a discount on trading fees for their first 30 days — subject to eligibility.</p>
           </div>
         </div>
       </div>
@@ -767,117 +804,77 @@
   </section>
   </div>
 
-  <!-- ============================= HOW IT WORKS ============================= -->
-  <section class="how">
+  <!-- ============================= HOW IT WORKS × REWARDS ============================= -->
+  <section class="how-rewards" id="how">
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="eyebrow">How it works</span>
-        <h2>Three steps. No spreadsheet required.</h2>
-        <p>Get your referral link from inside Bitval, share it, and watch rewards land in your account as friends qualify.</p>
+        <h2>Three steps. Rewards scale with you.</h2>
       </div>
 
-      <div class="steps reveal-stagger">
-        <article class="step">
-          <div class="n"><em>1</em> Get your link</div>
-          <h4>Sign up and grab your referral link or code.</h4>
-          <p>Every Bitval account comes with a unique referral link and short code. Find them in the Referrals tab of your workspace.</p>
-          <div class="visual">
-            <div class="vis-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M10 14a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 10a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>bitval.com/invite/GF35SET7<span class="pill">Copy</span></div>
-            <div class="vis-link" style="opacity:.7">Code: <b style="color:#fff;margin-left:6px;letter-spacing:.06em">GF35SET7</b></div>
-          </div>
-        </article>
+      <div class="how-rewards-grid reveal-stagger">
 
-        <article class="step">
-          <div class="n"><em>2</em> Share with friends</div>
-          <h4>Post, DM, or drop the code anywhere you hang out.</h4>
-          <p>Send it to friends directly, share in a group chat, or post to your feed. Every signup through your link is attributed to you.</p>
-          <div class="visual">
-            <div class="vis-friend">
-              <div class="ava-grp">
-                <span class="avatar"></span><span class="avatar"></span><span class="avatar"></span>
-              </div>
-              <span style="font-size:13px;color:var(--text-dim)">3 friends signed up</span>
-              <span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>linked</span>
-            </div>
-            <div class="vis-link" style="justify-content:flex-start;gap:8px;padding:6px 8px">
-              <span class="share-ic" style="width:22px;height:22px"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.92a8.38 8.38 0 0 1-2.36.65 4.12 4.12 0 0 0 1.8-2.27 8.2 8.2 0 0 1-2.6 1 4.1 4.1 0 0 0-7 3.74A11.65 11.65 0 0 1 3 4.86a4.1 4.1 0 0 0 1.27 5.47 4.08 4.08 0 0 1-1.86-.51v.05a4.1 4.1 0 0 0 3.29 4.02 4.12 4.12 0 0 1-1.85.07 4.1 4.1 0 0 0 3.83 2.85A8.23 8.23 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67l-.01-.53A8.18 8.18 0 0 0 22 5.92z"/></svg></span>
-              <span class="share-ic" style="width:22px;height:22px"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 5 3.66 9.13 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.13 22 17 22 12c0-5.52-4.48-10-10-10z"/></svg></span>
-              <span class="share-ic" style="width:22px;height:22px"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4 2 11.5l7 2.5 9-7-7 8.5 8.5 5 2-16z"/></svg></span>
-              <span style="font-size:12px;color:var(--text-muted);margin-left:auto">share</span>
+        <!-- Left: compact step list + R2 graphic -->
+        <div class="steps-compact">
+          <div class="step-line">
+            <div class="sl-num">1</div>
+            <div class="sl-body">
+              <strong>Get your link</strong>
+              <span>Find your referral link or code in the Referrals tab of your Bitval account.</span>
             </div>
           </div>
-        </article>
-
-        <article class="step">
-          <div class="n"><em>3</em> Earn when they qualify</div>
-          <h4>Get paid as your friends trade and qualify.</h4>
-          <p>Rewards are calculated on each qualifying trade your referred friends make and credited to your Bitval account.</p>
-          <div class="visual">
-            <div class="vis-earn">+ 142.84 <span class="mono" style="font-size:12.5px;color:var(--text-muted);font-weight:400">USDT</span><span class="up">+18% this week</span></div>
-            <div class="vis-bars">
-              <span style="height:30%"></span><span style="height:54%"></span><span style="height:42%"></span><span style="height:72%"></span><span style="height:60%"></span><span style="height:85%"></span><span style="height:68%"></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-family:'Geist Mono';font-size:11px;color:var(--text-muted)">
-              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          <div class="step-line">
+            <div class="sl-num">2</div>
+            <div class="sl-body">
+              <strong>Share with friends</strong>
+              <span>Post, DM, or drop the code — every signup through your link is attributed to you.</span>
             </div>
           </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================= REWARDS ============================= -->
-  <section class="rewards">
-    <div class="wrap">
-      <div class="reward-card reveal">
-        <div class="reward-grid">
-          <div class="rw-left">
-            <span class="eyebrow">Reward structure</span>
-            <h3>Earn <b>up to <span id="tierMaxHeading">40%</span></b> of referred trading fees. The more friends you bring, the bigger your share.</h3>
-            <p>Rewards are based on the fees your referred friends pay on qualifying trades — not their wins or losses. Tiers unlock as more of your invited friends stay active.</p>
-            <ul class="rw-bullets">
-              <li>
-                <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <div>Paid out in USDT, automatically<small>No invoices, no wires. Commission credits appear in your account as friends trade.</small></div>
-              </li>
-              <li>
-                <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <div>Rewards are conditional on qualifying activity<small>Friends must complete KYC and generate qualifying trade volume. A signup alone doesn't unlock rewards.</small></div>
-              </li>
-              <li>
-                <span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <div>Running bigger? Check out <a href="./" style="color:var(--accent-2);text-decoration:underline;text-underline-offset:3px">Affiliate</a><small>If you're sending at scale — creators, communities, media — the Affiliate program offers higher custom rates.</small></div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="rw-right">
-            <div class="rate-title"><span>Tier ladder</span><span>Active qualifying friends</span></div>
-            <div class="rate-ladder" id="rateLadder">
-              <div class="rate-row" data-tier="0">
-                <div class="tier">Starter<small>1 – 9 friends</small></div>
-                <div class="rate-bar"><i></i></div>
-                <div class="rate-pct">20%</div>
-              </div>
-              <div class="rate-row active" data-tier="1">
-                <div class="tier">Builder<small>10 – 49 friends</small></div>
-                <div class="rate-bar"><i></i></div>
-                <div class="rate-pct">30%</div>
-              </div>
-              <div class="rate-row" data-tier="2">
-                <div class="tier">Hero<small>50 – 199 friends</small></div>
-                <div class="rate-bar"><i></i></div>
-                <div class="rate-pct">35%</div>
-              </div>
-              <div class="rate-row" data-tier="3">
-                <div class="tier">Legend<small>200+ friends</small></div>
-                <div class="rate-bar"><i></i></div>
-                <div class="rate-pct">40%</div>
-              </div>
+          <div class="step-line">
+            <div class="sl-num">3</div>
+            <div class="sl-body">
+              <strong>Earn when they qualify</strong>
+              <span>Commission credits to your account each time a referred friend trades and qualifies.</span>
             </div>
-            <div class="rate-foot">Illustrative ladder. Final percentages, qualifying actions, and payout schedule are set in the Referral Terms and may change.</div>
+          </div>
+          <div class="tier-graphic">
+            <!-- NANO BANANA R2: Staircase of glossy coin stacks, blue-violet gradient, no text -->
+            <div class="tier-graphic-placeholder" aria-hidden="true"></div>
+            <p>Rates unlock as more friends qualify. Paid in USDT, automatically. <a href="./" style="color:var(--accent-2);text-underline-offset:3px;text-decoration:underline">Scaling further? See Affiliate →</a></p>
           </div>
         </div>
+
+        <!-- Right: tier ladder -->
+        <div class="rewards-right">
+          <div class="rewards-right-head">
+            <span>Tier ladder — up to <span id="tierMaxHeading">40</span>%</span>
+            <span>Active qualifying friends</span>
+          </div>
+          <div class="rate-ladder" id="rateLadder">
+            <div class="rate-row" data-tier="0">
+              <div class="tier">Starter<small>1 – 9 friends</small></div>
+              <div class="rate-bar"><i></i></div>
+              <div class="rate-pct">20%</div>
+            </div>
+            <div class="rate-row active" data-tier="1">
+              <div class="tier">Builder<small>10 – 49 friends</small></div>
+              <div class="rate-bar"><i></i></div>
+              <div class="rate-pct">30%</div>
+            </div>
+            <div class="rate-row" data-tier="2">
+              <div class="tier">Hero<small>50 – 199 friends</small></div>
+              <div class="rate-bar"><i></i></div>
+              <div class="rate-pct">35%</div>
+            </div>
+            <div class="rate-row" data-tier="3">
+              <div class="tier">Legend<small>200+ friends</small></div>
+              <div class="rate-bar"><i></i></div>
+              <div class="rate-pct">40%</div>
+            </div>
+          </div>
+          <div class="rate-foot">Illustrative ladder. Final percentages, qualifying actions, and payout schedule are set in the Referral Terms and may change.</div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -888,8 +885,8 @@
     <div class="wrap dash-wrap">
       <div class="sec-head reveal">
         <span class="eyebrow">Inside Bitval</span>
-        <h2>Everything tracked in one place.</h2>
-        <p>Once you're signed in, your referral link, commission history, and referred-user stats live together in the Referrals tab.</p>
+        <h2>Your link and earnings, one tab.</h2>
+        <p>Link, stats, and payouts in your Bitval account — no external portal.</p>
       </div>
 
       <div class="dash-frame reveal">
@@ -970,12 +967,10 @@
 
             <div class="mcard">
               <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:10px">
-              <div style="display:flex;gap:8px">
-                <div class="ref-tabs" style="margin:0">
+                <div class="ref-tabs" style="margin:0" id="histTabs">
                   <button class="active">Commission History</button>
                   <button>Payout History</button>
                   <button>Users</button>
-                </div>
                 </div>
                 <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--hairline);padding:5px 10px;border-radius:999px;color:var(--text-dim);font-size:12px">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -992,18 +987,17 @@
                   <div class="chart-wrap">
                     <svg viewBox="0 0 420 150" preserveAspectRatio="none">
                       <defs>
-                        <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
+                        <linearGradient id="refArea" x1="0" x2="0" y1="0" y2="1">
                           <stop offset="0%" stop-color="#526BCC" stop-opacity=".55"/>
                           <stop offset="100%" stop-color="#526BCC" stop-opacity="0"/>
                         </linearGradient>
                       </defs>
-                      <path d="M0 110 L40 96 L80 120 L120 70 L160 100 L200 50 L240 90 L280 30 L320 85 L360 60 L420 40 L420 150 L0 150 Z" fill="url(#area)"/>
+                      <path d="M0 110 L40 96 L80 120 L120 70 L160 100 L200 50 L240 90 L280 30 L320 85 L360 60 L420 40 L420 150 L0 150 Z" fill="url(#refArea)"/>
                       <path d="M0 110 L40 96 L80 120 L120 70 L160 100 L200 50 L240 90 L280 30 L320 85 L360 60 L420 40" stroke="#7A8FFF" stroke-width="1.6" fill="none"/>
                     </svg>
                   </div>
                   <div class="chart-axis"><span>Sep 1</span><span>Sep 31</span></div>
                 </div>
-
                 <div class="table-scroll">
                   <table class="tablemini">
                     <thead><tr><th>UID</th><th>Asset</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
@@ -1030,71 +1024,53 @@
     </div>
   </section>
 
-  <!-- ============================= FAQ ============================= -->
-  <section class="faq" id="faq">
-    <div class="wrap">
-      <div class="faq-grid reveal">
-        <div>
-          <span class="eyebrow">FAQ</span>
-          <h2 style="margin:14px 0 12px;font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1.1">Common questions</h2>
-          <p style="color:var(--text-dim);font-size:15.5px;line-height:1.6;max-width:380px">If you're running at scale — creators, communities, publishers — the <a href="./" style="color:var(--accent-2);text-decoration:underline;text-underline-offset:3px">Affiliate program</a> is a better fit. It's a separate track with higher custom rates.</p>
-        </div>
-        <div class="faq-list">
-          <details class="faq-item" open>
-            <summary>What counts as a qualifying friend?<span class="chev">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </span></summary>
-            <div class="body">A friend qualifies once they sign up through your link and complete the required verification and activity steps listed in the Referral Terms. A signup alone does not unlock a reward.</div>
-          </details>
-          <details class="faq-item">
-            <summary>When and how do I get paid?<span class="chev">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </span></summary>
-            <div class="body">Referral rewards are credited to your Bitval account after the required conditions are met. You can follow reward events and payout status from your Referrals workspace.</div>
-          </details>
-          <details class="faq-item">
-            <summary>How is Referral different from Affiliate?<span class="chev">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </span></summary>
-            <div class="body">Referral is the standard invite-friends track — open to everyday Bitval users who want to share a link or code with friends. Affiliate is an application-based partnership for high-volume referrers such as creators, media, and communities.</div>
-          </details>
-          <details class="faq-item">
-            <summary>Is there a cap on how much I can earn?<span class="chev">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </span></summary>
-            <div class="body">There's no cap on invites. Total rewards depend on the current program terms, how many referrals qualify, and the eligible activity they complete.</div>
-          </details>
-          <details class="faq-item">
-            <summary>Are rewards guaranteed?<span class="chev">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </span></summary>
-            <div class="body">No. Rewards are conditional on eligibility and qualifying activity as defined in the Referral Terms. Bitval may adjust qualifying events, payout details, or the program itself; changes are announced in advance where possible.</div>
-          </details>
-          <details class="faq-item">
-            <summary>I was invited — what do I get?<span class="chev">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </span></summary>
-            <div class="body">If you arrive through a referral link, any active referral offer is shown during signup. Final benefits depend on the current promotion, eligibility checks, and qualifying actions.</div>
-          </details>
-        </div>
+  <!-- ============================= FAQ + CTA ============================= -->
+  <section class="closer" id="faq">
+    <div class="closer-bg" aria-hidden="true"></div>
+    <div class="wrap closer-inner reveal">
+      <div class="closer-faq-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Common questions</h2>
+        <p>Still unsure? The <a href="./" style="color:var(--accent-2);text-underline-offset:3px;text-decoration:underline">Affiliate program</a> is a separate track for partners sending traffic at scale.</p>
       </div>
-    </div>
-  </section>
 
-  <!-- ============================= FINAL CTA ============================= -->
-  <section class="fcta">
-    <div class="fcta-bg" aria-hidden="true"></div>
-    <div class="wrap fcta-inner reveal-stagger">
-      <span class="eyebrow">Ready to refer</span>
-      <h2>Your network is worth something.<br/><em>Start earning from it.</em></h2>
-      <p>Sign up to start referring, or log in to open your existing referral workspace.</p>
-      <div class="hero-cta">
-        <button class="btn btn-primary btn-xl" id="ctaSignup">Sign up to start referring
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="btn btn-ghost btn-xl" id="ctaLogin">Log in to get your referral link</button>
+      <div class="closer-faq reveal-stagger">
+        <details class="faq-item" open>
+          <summary>What counts as a qualifying friend?<span class="chev">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span></summary>
+          <div class="body">A friend qualifies once they sign up through your link and complete the required verification and activity steps in the Referral Terms. A signup alone does not unlock a reward.</div>
+        </details>
+        <details class="faq-item">
+          <summary>When and how do I get paid?<span class="chev">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span></summary>
+          <div class="body">Rewards credit to your Bitval account in USDT once qualifying conditions are met. Track reward events and payout status from your Referrals tab.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How is Referral different from Affiliate?<span class="chev">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span></summary>
+          <div class="body">Referral is open to all Bitval users — share a link, earn on friend activity. <a href="./" style="color:var(--accent-2);text-underline-offset:3px;text-decoration:underline">Affiliate</a> is application-based, for creators, media, and communities driving traffic at scale.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a cap on how much I can earn?<span class="chev">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span></summary>
+          <div class="body">No cap on invites. Total rewards depend on how many referrals qualify and their eligible trading activity under the current program terms.</div>
+        </details>
       </div>
-      <div class="fine">By signing up you agree to the Referral Terms. Rewards are conditional on eligibility and qualifying activity. Bitval does not offer investment advice.</div>
+
+      <div class="closer-cta-block reveal-stagger">
+        <h2>Your network is worth something.<br/><em>Start earning from it.</em></h2>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-xl" id="ctaSignup">Sign up to start referring
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-xl" id="ctaLogin">Log in to get your link</button>
+        </div>
+        <div class="fine">By signing up you agree to the Referral Terms. Rewards are conditional on eligibility and qualifying activity. Bitval does not offer investment advice.</div>
+      </div>
     </div>
   </section>
 
@@ -1378,6 +1354,69 @@
       }
     }, {passive:true});
   }
+
+  /* ---------- Hero dynamic V-bars ---------- */
+  (function initHeroDynamicBars(){
+    const root = document.getElementById('hero-dynamic-bg');
+    if (!root) return;
+
+    const desktopMin = 768;
+    let barState = [];
+    let rafId = 0;
+    let time = 0;
+    let resizeTimer;
+
+    function reducedMotion(){
+      return matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    function build(){
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+      root.innerHTML = '';
+      barState = [];
+      const numBars = window.innerWidth > desktopMin ? 137 : 70;
+      const centerIndex = Math.floor(numBars / 2);
+      const maxDistance = Math.max(centerIndex, 1);
+      const wide = window.innerWidth > desktopMin;
+      const topSpan = wide ? 50 : 40;
+
+      for (let i = 0; i < numBars; i++) {
+        const col = document.createElement('div');
+        col.className = 'hero-dynamic-bg__col';
+        const glow = document.createElement('div');
+        glow.className = 'hero-dynamic-bg__glow';
+        const distance = Math.abs(i - centerIndex);
+        const baseTop = 30 + ((maxDistance - distance) / maxDistance) * topSpan;
+        glow.style.top = baseTop + '%';
+        col.appendChild(glow);
+        root.appendChild(col);
+        barState.push({ el: glow, baseTop, phase: distance * 0.2 });
+      }
+
+      if (!reducedMotion()) {
+        time = 0;
+        function tick(){
+          time += 0.02;
+          barState.forEach(bar => {
+            const wave = Math.sin(time + bar.phase) * 3;
+            bar.el.style.top = (bar.baseTop + wave) + '%';
+          });
+          rafId = requestAnimationFrame(tick);
+        }
+        tick();
+      }
+    }
+
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(build, 150);
+    }, { passive: true });
+
+    build();
+  })();
 
   /* ---------- tweaks protocol ---------- */
   function persistState(partial){
